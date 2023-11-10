@@ -9,7 +9,7 @@ class TeamCard extends Component {
     const {each} = this.props
     const {teamImageUrl, id, name} = each
     return (
-      <Link to={`/team-matches/${id}`}>
+      <Link className="link-ele" to={`/team-matches/${id}`}>
         <li className="card">
           <div className="card-container">
             <div>

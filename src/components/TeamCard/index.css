@@ -5,6 +5,9 @@
 .name {
   color: white;
   font-size: 3vw;
+  text-align: center;
+  margin-left: 30px;
+  /* width: 100px; */
 }
 .card-container {
   background-color: #ffffff33;
@@ -13,7 +16,14 @@
   margin: 10px;
   width: 500px;
   height: 200px;
+  border-radius: 20px;
+  padding: 20px;
 }
 .card {
-  border-radius: 20px;
+  /* border-radius: 20px; */
+  /* border: 1px solid red; */
+}
+
+.link-ele {
+  text-decoration: none;
 }
