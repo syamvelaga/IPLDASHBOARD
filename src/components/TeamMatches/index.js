@@ -1,5 +1,9 @@
 import {Component} from 'react'
-import {async} from 'fast-glob'
+// import {async} from 'fast-glob'
+
+import LatestMatch from '../LatestMatch'
+
+import MatchCard from '../MatchCard'
 
 const teamMatchList = {
   teamBannerUrl: 'https://assets.ccbp.in/frontend/react-js/kkr-team-img.png',
@@ -29,7 +33,6 @@ const teamMatchList = {
       competingTeam: 'Royal Challengers Bangalore',
       competingTeamLogo:
         'https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/Royal_Challengers_Bangalore_2020.svg/1200px-Royal_Challengers_Bangalore_2020.svg.png',
-      // use value of the key 'competing_team' for alt as `competing team ${competing_team}`
       firstInnings: 'Royal Challengers Bangalore',
       secondInnings: 'Kolkata Knight Riders',
       matchStatus: 'Lost',
@@ -38,22 +41,61 @@ const teamMatchList = {
 }
 
 class TeamMatches extends Component {
+  state = {myObject: {}}
+
   componentDidMount() {
     this.getdata()
   }
 
   getdata = async () => {
-    // const response = await fetch(``)
+    const {myObject} = this.state
+    const {match} = this.props
+    const {params} = match
+    const {id} = params
+    // console.log(id)
+    const response = await fetch(`https://apis.ccbp.in/ipl/${id}`)
+    const data = await response.json()
+
+    const newData = {
+      teamBannerUrl: data.team_banner_url,
+      latestMatchDetails: data.latest_match_details,
+      recentMatches: data.recent_matches,
+    }
+
+    // console.log(data)
+
+    this.setState({...myObject, ...newData})
   }
 
   render() {
     // console.log(this.props)
+
+    const {myObject} = this.state
+
+    console.log(myObject)
+
     const {match} = this.props
     const {params} = match
     const {id} = params
-    console.log(id)
+    // console.log(id)
 
-    return <div path={`/team-matches/${id}`}> Syam</div>
+    const {teamBannerUrl, latestMatchDetails, recentMatches} = teamMatchList
+
+    return (
+      <div path={`/team-matches/${id}`}>
+        <div className="">
+          <div>
+            <img alt="team-img" src={teamBannerUrl} />
+          </div>
+          <LatestMatch latestMatchDetails={latestMatchDetails} />
+          <ul>
+            {recentMatches.map(each => (
+              <MatchCard key={each.id} each={each} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    )
   }
 }
 
